@@ -1,37 +1,21 @@
-import { Button } from 'components/button';
-import { Dialog } from 'components/dialog';
+import { LinkButton } from 'components/button';
+import { Container } from 'components/container';
 import { Header } from 'components/header';
-import { Spinner } from 'components/spinner';
-import { ScenarioForm, ScenarioList, useAllScenarios } from 'modules/scenario';
 import * as React from 'react';
+import * as routes from 'routes';
 
 export const IndexPage = () => {
-  const [scenarios, status, refresh] = useAllScenarios();
-  const [showDialog, setShowDialog] = React.useState(false);
   return (
     <>
       <Header />
-      <div className="max-w-4xl mx-auto py-2 px-4">
-        {status === 'busy' && <Spinner />}
-        <main className="grid md:grid-cols-2 gap-2">
-          <div className="mb-4">
-            <div className="px-2 py-6 md:hidden">
-              <Button onClick={() => setShowDialog(true)}>Add </Button>
-            </div>
-            <ScenarioList scenarios={scenarios} />
+      <main>
+        <Container>
+          <div className="flex items-center justify-around px-2 py-3">
+            <LinkButton to={routes.scenarioUrl}>Scenarios</LinkButton>
+            <LinkButton to={routes.testDataUrl}>Test Data</LinkButton>
           </div>
-          <div className="hidden md:block">
-            <ScenarioForm onSuccess={refresh} />
-          </div>
-          <Dialog
-            isOpen={showDialog}
-            aria-label="Scenario Form"
-            onDismiss={() => setShowDialog(false)}
-          >
-            <ScenarioForm onSuccess={refresh} />
-          </Dialog>
-        </main>
-      </div>
+        </Container>
+      </main>
     </>
   );
 };
