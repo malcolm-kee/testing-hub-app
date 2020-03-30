@@ -1,6 +1,7 @@
 import { Button } from 'components/button';
 import { TextField } from 'components/text-field';
 import * as React from 'react';
+import { FiPlus } from 'react-icons/fi';
 import { createScenario } from '../scenario.service';
 import { Scenario } from '../scenario.type';
 
@@ -74,8 +75,9 @@ export const ScenarioForm = (props: ScenarioFormProps) => {
                 })
               )
             }
+            aria-label="Add Step"
           >
-            Add Step
+            <FiPlus aria-hidden focusable={false} />
           </Button>
         </div>
         {steps.map((step, index) => (
@@ -123,7 +125,9 @@ export const ScenarioForm = (props: ScenarioFormProps) => {
         ))}
       </div>
       <div className="py-2">
-        <Button type="submit">{props.currentValue ? 'Save' : 'Add'}</Button>
+        <Button type="submit" className="w-1/3">
+          {props.currentValue ? 'Save' : 'Add'}
+        </Button>
       </div>
     </form>
   );
