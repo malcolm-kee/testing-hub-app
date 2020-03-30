@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { Header } from 'components/header';
 import { Container } from 'components/container';
-import { PermutationTemplateForm } from 'modules/permutation/components/permutation-template-form';
+import { Header } from 'components/header';
+import { PermutationTemplateForm } from 'modules/permutation';
+import * as React from 'react';
 
 export const TestDataPage = () => {
   return (
