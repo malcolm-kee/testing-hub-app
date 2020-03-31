@@ -5,7 +5,7 @@ export type FieldType =
   | 'select'
   | 'multiselect';
 
-export type PermutationTemplateField = {
+export type PermutationFieldConfig = {
   _id: string;
   name: string;
   fieldType: FieldType;
@@ -17,7 +17,7 @@ export type PermutationTemplateField = {
 
 export type PermutationTemplate = {
   name: string;
-  fields: PermutationTemplateField[];
+  fields: PermutationFieldConfig[];
 };
 
 export type Permutation = {

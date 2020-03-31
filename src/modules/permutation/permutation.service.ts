@@ -1,7 +1,7 @@
 import { fetchJson } from 'lib/fetch-json';
 import {
   PermutationTemplate,
-  PermutationTemplateField,
+  PermutationFieldConfig,
 } from './permutation.type';
 
 const permutationTemplateUrl = process.env
@@ -9,7 +9,7 @@ const permutationTemplateUrl = process.env
 
 export const createTemplate = (
   data: Omit<PermutationTemplate, '_id' | 'fields'> & {
-    fields: Array<Omit<PermutationTemplateField, '_id'>>;
+    fields: Array<Omit<PermutationFieldConfig, '_id'>>;
   }
 ) =>
   fetchJson(permutationTemplateUrl, {
