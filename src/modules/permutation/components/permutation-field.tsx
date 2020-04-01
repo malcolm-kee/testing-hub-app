@@ -1,3 +1,4 @@
+import { Checkbox } from 'components/checkbox';
 import { SelectField } from 'components/select-field';
 import { TextField } from 'components/text-field';
 import * as React from 'react';
@@ -25,6 +26,15 @@ export const PermutationField = ({
             </option>
           ))}
         </SelectField>
+      );
+
+    case 'checkbox':
+      return (
+        <Checkbox
+          label={config.name}
+          disabled={readOnly}
+          className="px-1 py-3"
+        />
       );
 
     default:
