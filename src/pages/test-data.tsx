@@ -1,7 +1,8 @@
+import { LinkButton } from 'components/button';
 import { Container } from 'components/container';
 import { Header } from 'components/header';
-import { PermutationTemplateForm } from 'modules/permutation';
 import * as React from 'react';
+import { testDataTemplateUrl } from 'routes';
 
 export const TestDataPage = () => {
   return (
@@ -10,7 +11,9 @@ export const TestDataPage = () => {
       <main>
         <Container>
           <h1 className="text-3xl text-gray-800">Test Data</h1>
-          <PermutationTemplateForm onSuccess={console.log} />
+          <div>
+            <LinkButton to={testDataTemplateUrl}>Manage Template</LinkButton>
+          </div>
         </Container>
       </main>
     </>

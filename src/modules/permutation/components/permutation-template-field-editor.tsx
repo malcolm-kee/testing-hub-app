@@ -38,7 +38,10 @@ export const PermutationTemplateFieldEditor = (props: FieldEditorProps) => {
         props.onSave({
           name,
           fieldType,
-          options,
+          options:
+            fieldType === 'select' || fieldType === 'multiselect'
+              ? options
+              : [],
         });
       }}
       className="max-w-lg"

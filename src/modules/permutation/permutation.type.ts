@@ -16,6 +16,7 @@ export type PermutationFieldConfig = {
 };
 
 export type PermutationTemplate = {
+  _id: string;
   name: string;
   fields: PermutationFieldConfig[];
 };

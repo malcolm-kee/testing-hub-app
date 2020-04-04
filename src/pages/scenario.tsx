@@ -6,7 +6,7 @@ import { ScenarioForm, ScenarioList, useAllScenarios } from 'modules/scenario';
 import * as React from 'react';
 
 export const ScenarioPage = () => {
-  const [scenarios, status, refresh] = useAllScenarios();
+  const [{ data: scenarios, status }, refresh] = useAllScenarios();
   const [showDialog, setShowDialog] = React.useState(false);
   return (
     <>

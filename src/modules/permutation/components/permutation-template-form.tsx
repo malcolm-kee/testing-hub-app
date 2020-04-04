@@ -43,6 +43,9 @@ export const PermutationTemplateForm = (
           });
         }}
       >
+        <div className="mx-2 font-semibold text-lg mb-2">
+          {props.currentValue ? 'Edit' : 'Create'} Template
+        </div>
         <TextField
           label="Template Name"
           value={name}
