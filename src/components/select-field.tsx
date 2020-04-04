@@ -25,7 +25,12 @@ export const SelectField = React.forwardRef<
 
   return (
     <div>
-      {label && <Label htmlFor={displayedId}>{label}</Label>}
+      {label && (
+        <Label htmlFor={displayedId}>
+          {label}
+          {props.required && '*'}
+        </Label>
+      )}
       <Select
         {...props}
         id={displayedId}

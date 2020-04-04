@@ -16,14 +16,30 @@ export const PermutationField = ({
 }: PermutationFieldProps) => {
   switch (config.fieldType) {
     case 'text':
-      return <TextField label={config.name} readOnly={readOnly} />;
+      return (
+        <TextField
+          label={config.name}
+          required={config.isRequired}
+          readOnly={readOnly}
+        />
+      );
 
     case 'textarea':
-      return <TextareaField label={config.name} readOnly={readOnly} />;
+      return (
+        <TextareaField
+          label={config.name}
+          required={config.isRequired}
+          readOnly={readOnly}
+        />
+      );
 
     case 'select':
       return (
-        <SelectField label={config.name} disabled={readOnly}>
+        <SelectField
+          label={config.name}
+          required={config.isRequired}
+          disabled={readOnly}
+        >
           {config.options.map((opt, i) => (
             <option value={opt.value} key={i}>
               {opt.label}
@@ -38,6 +54,7 @@ export const PermutationField = ({
           label={config.name}
           disabled={readOnly}
           className="px-1 py-3"
+          required={config.isRequired}
         />
       );
 

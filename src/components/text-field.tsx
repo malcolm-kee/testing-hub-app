@@ -23,7 +23,12 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
 
     return (
       <div>
-        {label && <Label htmlFor={displayedId}>{label}</Label>}
+        {label && (
+          <Label htmlFor={displayedId}>
+            {label}
+            {props.required && '*'}
+          </Label>
+        )}
         <Input
           {...props}
           id={displayedId}

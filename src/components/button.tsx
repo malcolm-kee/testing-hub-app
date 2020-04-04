@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import * as React from 'react';
-import { LinkProps, Link } from 'react-router-dom';
+import { Link, LinkProps } from 'react-router-dom';
 
 export type ButtonStyleProps = {
   variant?: 'primary' | 'none';
@@ -18,7 +18,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         type={type}
         className={cx(
-          getStyleClass({
+          getButtonStyleClass({
             variant,
             size,
             disabled,
@@ -44,7 +44,7 @@ export const LinkButton = ({
   <Link
     {...props}
     className={cx(
-      getStyleClass({
+      getButtonStyleClass({
         variant,
         size,
       }),
@@ -53,7 +53,7 @@ export const LinkButton = ({
   />
 );
 
-const getStyleClass = ({
+export const getButtonStyleClass = ({
   variant = 'primary',
   size,
   disabled,

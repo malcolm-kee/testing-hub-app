@@ -4,4 +4,4 @@ export const scenarioUrl = '/scenario';
 
 export const testDataUrl = '/test-data';
 
-export const testDataTemplateUrl = '/test-data-template';
+export const testDataTemplateUrl = '/test-data-type';

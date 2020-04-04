@@ -21,7 +21,7 @@ export const TestDataTemplatePage = () => {
       <Header />
       <main>
         <Container>
-          <h1 className="text-3xl text-gray-800">Test Data Template</h1>
+          <h1 className="text-3xl text-gray-800">Test Data Type</h1>
           {status === 'busy' && <Spinner />}
           <div className="grid gap-2 md:grid-cols-2">
             <PermutationTemplateList
@@ -34,6 +34,7 @@ export const TestDataTemplatePage = () => {
         </Container>
       </main>
       <Dialog
+        aria-label="Update Template Form"
         isOpen={!!focusedTemplate}
         onDismiss={() => setFocusedTemplate(undefined)}
       >

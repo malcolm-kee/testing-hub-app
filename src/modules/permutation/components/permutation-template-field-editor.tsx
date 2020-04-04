@@ -1,4 +1,5 @@
 import { Button } from 'components/button';
+import { Checkbox } from 'components/checkbox';
 import {
   Disclosure,
   DisclosureButton,
@@ -30,6 +31,9 @@ export const PermutationTemplateFieldEditor = (props: FieldEditorProps) => {
   const [fieldKey, setFieldKey] = React.useState(
     props.currentValue ? props.currentValue.fieldKey : ''
   );
+  const [isRequired, setIsRequired] = React.useState(
+    props.currentValue ? props.currentValue.isRequired : false
+  );
   const [options, setOptions] = React.useState(
     props.currentValue
       ? props.currentValue.options
@@ -51,6 +55,7 @@ export const PermutationTemplateFieldEditor = (props: FieldEditorProps) => {
             name,
             fieldType,
             fieldKey,
+            isRequired,
             options:
               fieldType === 'select' || fieldType === 'multiselect'
                 ? options
@@ -70,6 +75,12 @@ export const PermutationTemplateFieldEditor = (props: FieldEditorProps) => {
                 }
           }
           required
+        />
+        <Checkbox
+          label="Required?"
+          checked={isRequired}
+          onChange={(ev) => setIsRequired(ev.target.checked)}
+          className="px-1 py-3"
         />
         <SelectField
           label="Control Type"
@@ -214,6 +225,7 @@ export const PermutationTemplateFieldEditor = (props: FieldEditorProps) => {
             name,
             options,
             fieldKey,
+            isRequired,
           }}
         />
       </div>

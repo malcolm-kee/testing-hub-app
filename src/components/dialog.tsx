@@ -11,7 +11,10 @@ export const Dialog = React.forwardRef<HTMLDivElement, DialogProps>(
     return (
       <ReachDialog
         {...props}
-        className={cx('relative w-3/4', className)}
+        className={cx(
+          'relative w-3/4 rounded-b-lg border-t-4 border-pink-500',
+          className
+        )}
         ref={ref}
       >
         <button

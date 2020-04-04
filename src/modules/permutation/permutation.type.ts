@@ -10,6 +10,7 @@ export type PermutationFieldConfig = {
   name: string;
   fieldType: FieldType;
   fieldKey: string;
+  isRequired: boolean;
   options: Array<{
     label: string;
     value: string;

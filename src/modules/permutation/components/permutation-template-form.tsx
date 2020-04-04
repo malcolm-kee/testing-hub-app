@@ -71,36 +71,38 @@ export const PermutationTemplateForm = (
           onChangeValue={setName}
           required
         />
-        <div className="flex justify-between items-center px-2 py-3">
-          <p className="text-xl">Fields</p>
-          <AddButton
-            onClick={() => setShowAddForm(true)}
-            aria-label="Add Field"
-          />
+        <div className="shadow bg-white rounded p-2 my-3">
+          <div className="flex justify-between items-center px-2 pb-2">
+            <p className="text-xl">Fields</p>
+            <AddButton
+              onClick={() => setShowAddForm(true)}
+              aria-label="Add Field"
+            />
+          </div>
+          <ul>
+            {fields.map((field, i) => (
+              <li className="flex items-center mb-2" key={i}>
+                <div className="flex-1">
+                  <PermutationField config={field} />
+                </div>
+                <div className="pl-2">
+                  <EditButton
+                    onClick={() => setFocusedFieldIndex(i)}
+                    aria-label="Edit field"
+                    variant="none"
+                  />
+                  <DeleteButton
+                    onClick={() =>
+                      setFields((fs) => fs.filter((_, index) => index !== i))
+                    }
+                    aria-label="Delete field"
+                    variant="none"
+                  />
+                </div>
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul>
-          {fields.map((field, i) => (
-            <li className="flex items-center mb-2" key={i}>
-              <div className="flex-1">
-                <PermutationField config={field} readOnly />
-              </div>
-              <div className="pl-2">
-                <EditButton
-                  onClick={() => setFocusedFieldIndex(i)}
-                  aria-label="Edit field"
-                  variant="none"
-                />
-                <DeleteButton
-                  onClick={() =>
-                    setFields((fs) => fs.filter((_, index) => index !== i))
-                  }
-                  aria-label="Delete field"
-                  variant="none"
-                />
-              </div>
-            </li>
-          ))}
-        </ul>
         <div className="px-2 py-3">
           <Button type="submit">
             {props.currentValue ? 'Save' : 'Add'} Template
