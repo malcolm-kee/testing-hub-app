@@ -22,6 +22,17 @@ export const createTemplate = (
     data,
   }) as Promise<PermutationTemplate>;
 
+export const updateTemplate = ({
+  _id,
+  ...data
+}: Omit<PermutationTemplate, 'fields'> & {
+  fields: Array<Omit<PermutationFieldConfig, '_id'>>;
+}) =>
+  fetchJson(permutationTemplateUrl + `/${_id}`, {
+    method: 'PUT',
+    data,
+  }) as Promise<PermutationTemplate>;
+
 export const deleteTemplate = (templateId: string) =>
   fetchJson(permutationTemplateUrl + `/${templateId}`, {
     method: 'DELETE',

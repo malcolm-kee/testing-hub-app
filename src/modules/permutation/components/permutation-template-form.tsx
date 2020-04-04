@@ -1,15 +1,16 @@
 import { Button } from 'components/button';
 import { Dialog } from 'components/dialog';
+import { AddButton, DeleteButton, EditButton } from 'components/icon-button';
 import { TextField } from 'components/text-field';
+import { isDefined } from 'lib/is';
 import * as React from 'react';
-import { FiPlus } from 'react-icons/fi';
-import { createTemplate } from '../permutation.service';
+import { createTemplate, updateTemplate } from '../permutation.service';
 import {
-  PermutationTemplate,
   PermutationFieldConfig,
+  PermutationTemplate,
 } from '../permutation.type';
-import { PermutationTemplateFieldEditor } from './permutation-template-field-editor';
 import { PermutationField } from './permutation-field';
+import { PermutationTemplateFieldEditor } from './permutation-template-field-editor';
 
 export type PermutationTemplateFormProps = {
   onSuccess: () => void;
@@ -25,18 +26,36 @@ export const PermutationTemplateForm = (
   const [fields, setFields] = React.useState<Array<FieldWithoutId>>(
     props.currentValue ? props.currentValue.fields : []
   );
+  const [focusedFieldIndex, setFocusedFieldIndex] = React.useState<
+    number | undefined
+  >(undefined);
 
   const [showAddForm, setShowAddForm] = React.useState(false);
+
+  React.useEffect(() => {
+    if (props.currentValue) {
+      setName(props.currentValue.name);
+      setFields(props.currentValue.fields);
+    }
+  }, [props.currentValue]);
 
   return (
     <>
       <form
         onSubmit={(ev) => {
           ev.preventDefault();
-          createTemplate({
-            name,
-            fields,
-          }).then(() => {
+          Promise.resolve(
+            props.currentValue
+              ? updateTemplate({
+                  _id: props.currentValue._id,
+                  name,
+                  fields,
+                })
+              : createTemplate({
+                  name,
+                  fields,
+                })
+          ).then(() => {
             setName('');
             setFields([]);
             props.onSuccess();
@@ -54,13 +73,34 @@ export const PermutationTemplateForm = (
         />
         <div className="flex justify-between items-center px-2 py-3">
           <p className="text-xl">Fields</p>
-          <Button onClick={() => setShowAddForm(true)} aria-label="Add Field">
-            <FiPlus aria-hidden focusable={false} />
-          </Button>
+          <AddButton
+            onClick={() => setShowAddForm(true)}
+            aria-label="Add Field"
+          />
         </div>
-        {fields.map((field, i) => (
-          <PermutationField config={field} readOnly key={i} />
-        ))}
+        <ul>
+          {fields.map((field, i) => (
+            <li className="flex items-center mb-2" key={i}>
+              <div className="flex-1">
+                <PermutationField config={field} readOnly />
+              </div>
+              <div className="pl-2">
+                <EditButton
+                  onClick={() => setFocusedFieldIndex(i)}
+                  aria-label="Edit field"
+                  variant="none"
+                />
+                <DeleteButton
+                  onClick={() =>
+                    setFields((fs) => fs.filter((_, index) => index !== i))
+                  }
+                  aria-label="Delete field"
+                  variant="none"
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
         <div className="px-2 py-3">
           <Button type="submit">
             {props.currentValue ? 'Save' : 'Add'} Template
@@ -76,6 +116,23 @@ export const PermutationTemplateForm = (
           onSave={(newField) => {
             setFields((fs) => fs.concat(newField));
             setShowAddForm(false);
+          }}
+        />
+      </Dialog>
+      <Dialog
+        aria-label="Edit Field Form"
+        isOpen={isDefined(focusedFieldIndex)}
+        onDismiss={() => setFocusedFieldIndex(undefined)}
+      >
+        <PermutationTemplateFieldEditor
+          currentValue={fields[focusedFieldIndex as number]}
+          onSave={(newField) => {
+            setFields((fs) =>
+              fs.map((field, index) =>
+                index === focusedFieldIndex ? newField : field
+              )
+            );
+            setFocusedFieldIndex(undefined);
           }}
         />
       </Dialog>

@@ -9,6 +9,7 @@ export type PermutationFieldConfig = {
   _id: string;
   name: string;
   fieldType: FieldType;
+  fieldKey: string;
   options: Array<{
     label: string;
     value: string;

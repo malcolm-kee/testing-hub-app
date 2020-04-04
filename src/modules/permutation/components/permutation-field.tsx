@@ -3,6 +3,7 @@ import { SelectField } from 'components/select-field';
 import { TextField } from 'components/text-field';
 import * as React from 'react';
 import { PermutationFieldConfig } from '../permutation.type';
+import { TextareaField } from 'components/textarea-field';
 
 export type PermutationFieldProps = {
   config: Omit<PermutationFieldConfig, '_id'>;
@@ -16,6 +17,9 @@ export const PermutationField = ({
   switch (config.fieldType) {
     case 'text':
       return <TextField label={config.name} readOnly={readOnly} />;
+
+    case 'textarea':
+      return <TextareaField label={config.name} readOnly={readOnly} />;
 
     case 'select':
       return (
