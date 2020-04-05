@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { FiPlus, FiEdit, FiX } from 'react-icons/fi';
+import { FiEdit2, FiPlus, FiX } from 'react-icons/fi';
 import { Button, ButtonProps } from './button';
 
 export type IconButtonProps = Omit<ButtonProps, 'ref'> & {
@@ -14,7 +14,7 @@ export const AddButton = (props: IconButtonProps) => (
 
 export const EditButton = (props: IconButtonProps) => (
   <Button {...props}>
-    <FiEdit aria-hidden focusable={false} />
+    <FiEdit2 aria-hidden focusable={false} />
   </Button>
 );
 

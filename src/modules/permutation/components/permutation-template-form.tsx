@@ -1,10 +1,17 @@
 import { Alert } from 'components/alert';
-import { Button } from 'components/button';
+import { Button, getButtonStyleClass } from 'components/button';
 import { Dialog } from 'components/dialog';
 import { AddButton, DeleteButton, EditButton } from 'components/icon-button';
 import { TextField } from 'components/text-field';
+import { arrayMove } from 'lib/array-move';
 import { isDefined } from 'lib/is';
 import * as React from 'react';
+import { FiMove } from 'react-icons/fi';
+import {
+  SortableContainer,
+  SortableElement,
+  SortableHandle,
+} from 'react-sortable-hoc';
 import { createTemplate, updateTemplate } from '../permutation.service';
 import {
   PermutationFieldConfig,
@@ -86,29 +93,19 @@ export const PermutationTemplateForm = (
               aria-label="Add Field"
             />
           </div>
-          <ul>
-            {fields.map((field, i) => (
-              <li className="flex items-center mb-2" key={i}>
-                <div className="flex-1">
-                  <PermutationField config={field} preview />
-                </div>
-                <div className="pl-2">
-                  <EditButton
-                    onClick={() => setFocusedFieldIndex(i)}
-                    aria-label="Edit field"
-                    variant="none"
-                  />
-                  <DeleteButton
-                    onClick={() =>
-                      setFields((fs) => fs.filter((_, index) => index !== i))
-                    }
-                    aria-label="Delete field"
-                    variant="none"
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
+          <SortableFieldList
+            fields={fields}
+            onEditField={(index) => setFocusedFieldIndex(index)}
+            onDeleteField={(index) =>
+              setFields((flds) => flds.filter((_, i) => i !== index))
+            }
+            onSortEnd={(result) =>
+              setFields((flds) =>
+                arrayMove(flds, result.oldIndex, result.newIndex)
+              )
+            }
+            useDragHandle
+          />
         </div>
         <div className="px-2 py-3">
           <Button type="submit">
@@ -148,3 +145,70 @@ export const PermutationTemplateForm = (
     </>
   );
 };
+
+type FieldListProps = {
+  fields: PermutationFieldConfig[];
+  onEditField: (index: number) => void;
+  onDeleteField: (index: number) => void;
+};
+
+const SortableFieldList = SortableContainer(function FieldList(
+  props: FieldListProps
+) {
+  return (
+    <ul>
+      {props.fields.map((field, index) => (
+        <SortableField
+          field={field}
+          onEdit={() => props.onEditField(index)}
+          onDelete={() => props.onDeleteField(index)}
+          index={index}
+          key={field._id}
+        />
+      ))}
+    </ul>
+  );
+});
+
+type FieldProps = {
+  field: PermutationFieldConfig;
+  onEdit: () => void;
+  onDelete: () => void;
+};
+
+const SortableField = SortableElement(function Field(props: FieldProps) {
+  return (
+    <li className="flex items-center mb-2">
+      <div className="flex-1">
+        <PermutationField config={props.field} preview />
+      </div>
+      <div className="pl-2">
+        <EditButton
+          onClick={props.onEdit}
+          aria-label="Edit field"
+          variant="none"
+        />
+        <SortHandle />
+        <DeleteButton
+          onClick={props.onDelete}
+          aria-label="Delete field"
+          variant="none"
+        />
+      </div>
+    </li>
+  );
+});
+
+const SortHandle = SortableHandle(() => (
+  <div
+    aria-label="Reorder field, press space to select"
+    role="button"
+    title="Drag to reorder"
+    className={getButtonStyleClass({
+      variant: 'none',
+    })}
+    tabIndex={0}
+  >
+    <FiMove aria-hidden focusable={false} />
+  </div>
+));

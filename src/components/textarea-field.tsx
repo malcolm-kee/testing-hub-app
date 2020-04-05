@@ -28,7 +28,7 @@ export const TextareaField = React.forwardRef<
       {label && (
         <Label htmlFor={displayedId}>
           {label}
-          {props.required && '*'}
+          {props.required && ' *'}
         </Label>
       )}
       <Textarea

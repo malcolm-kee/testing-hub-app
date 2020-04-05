@@ -1,14 +1,14 @@
 import { Container } from 'components/container';
+import { Dialog } from 'components/dialog';
 import { Header } from 'components/header';
 import { Spinner } from 'components/spinner';
 import {
+  PermutationTemplate,
   PermutationTemplateForm,
   PermutationTemplateList,
   useAllTemplates,
-  PermutationTemplate,
 } from 'modules/permutation';
 import * as React from 'react';
-import { Dialog } from 'components/dialog';
 
 export const TestDataTemplatePage = () => {
   const [{ data, status }, refresh] = useAllTemplates();

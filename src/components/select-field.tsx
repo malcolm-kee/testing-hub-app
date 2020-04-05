@@ -28,7 +28,7 @@ export const SelectField = React.forwardRef<
       {label && (
         <Label htmlFor={displayedId}>
           {label}
-          {props.required && '*'}
+          {props.required && ' *'}
         </Label>
       )}
       <Select

@@ -20,7 +20,9 @@ export const PermutationField = ({
     case 'text':
       return (
         <TextField
-          label={config.name}
+          label={
+            preview && config.isRequired ? `${config.name} *` : config.name
+          }
           required={!preview && config.isRequired}
           readOnly={readOnly}
         />
@@ -29,7 +31,9 @@ export const PermutationField = ({
     case 'textarea':
       return (
         <TextareaField
-          label={config.name}
+          label={
+            preview && config.isRequired ? `${config.name} *` : config.name
+          }
           required={!preview && config.isRequired}
           readOnly={readOnly}
         />
@@ -38,7 +42,9 @@ export const PermutationField = ({
     case 'select':
       return (
         <SelectField
-          label={config.name}
+          label={
+            preview && config.isRequired ? `${config.name} *` : config.name
+          }
           required={!preview && config.isRequired}
           disabled={readOnly}
         >
@@ -53,7 +59,9 @@ export const PermutationField = ({
     case 'checkbox':
       return (
         <Checkbox
-          label={config.name}
+          label={
+            preview && config.isRequired ? `${config.name} *` : config.name
+          }
           disabled={readOnly}
           className="px-1 py-3"
           required={!preview && config.isRequired}
