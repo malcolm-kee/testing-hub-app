@@ -1,4 +1,4 @@
-export { PermutationForm } from './components/permutation-form';
+export { PermutationFormLazy as PermutationForm } from './components/permutation-form-lazy';
 export { PermutationList } from './components/permutation-list';
 export { PermutationTemplateForm } from './components/permutation-template-form';
 export { PermutationTemplateList } from './components/permutation-template-list';

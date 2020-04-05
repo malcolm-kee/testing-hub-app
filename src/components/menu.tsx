@@ -3,6 +3,7 @@ import '@reach/menu-button/styles.css';
 import cx from 'classnames';
 import * as React from 'react';
 import { ButtonStyleProps, getButtonStyleClass } from './button';
+import './menu.scss';
 export { Menu, MenuItem, MenuList } from '@reach/menu-button';
 
 export type MenuButtonProps = JSX.IntrinsicElements['button'] &
