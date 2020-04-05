@@ -23,6 +23,20 @@ export const fetchJson = (
   }).then((res) => {
     if (res.ok) {
       return res.json();
+    } else {
+      return res
+        .json()
+        .catch(() =>
+          // `.json()` fails so we fallback to get plain text
+          res.text().then((resultText) => {
+            throw Error(resultText);
+          })
+        )
+        .then((result) => {
+          const errorText = Array.isArray(result && result.message)
+            ? result.message[0]
+            : result && result.message;
+          throw Error(errorText);
+        });
     }
-    throw new Error('fetchJson fails');
   });

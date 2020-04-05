@@ -6,7 +6,10 @@ export type FieldType =
   | 'multiselect';
 
 export type PermutationFieldConfig = {
-  _id: string;
+  /**
+   * number _id are temporary id that will be filtered when submitted
+   */
+  _id: string | number;
   name: string;
   fieldType: FieldType;
   fieldKey: string;

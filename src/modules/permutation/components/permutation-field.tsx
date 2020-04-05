@@ -7,11 +7,13 @@ import { TextareaField } from 'components/textarea-field';
 
 export type PermutationFieldProps = {
   config: Omit<PermutationFieldConfig, '_id'>;
+  preview?: boolean;
   readOnly?: boolean;
 };
 
 export const PermutationField = ({
   config,
+  preview,
   readOnly,
 }: PermutationFieldProps) => {
   switch (config.fieldType) {
@@ -19,7 +21,7 @@ export const PermutationField = ({
       return (
         <TextField
           label={config.name}
-          required={config.isRequired}
+          required={!preview && config.isRequired}
           readOnly={readOnly}
         />
       );
@@ -28,7 +30,7 @@ export const PermutationField = ({
       return (
         <TextareaField
           label={config.name}
-          required={config.isRequired}
+          required={!preview && config.isRequired}
           readOnly={readOnly}
         />
       );
@@ -37,7 +39,7 @@ export const PermutationField = ({
       return (
         <SelectField
           label={config.name}
-          required={config.isRequired}
+          required={!preview && config.isRequired}
           disabled={readOnly}
         >
           {config.options.map((opt, i) => (
@@ -54,7 +56,7 @@ export const PermutationField = ({
           label={config.name}
           disabled={readOnly}
           className="px-1 py-3"
-          required={config.isRequired}
+          required={!preview && config.isRequired}
         />
       );
 

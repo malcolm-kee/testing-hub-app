@@ -1,3 +1,4 @@
+import { Alert } from 'components/alert';
 import { Button } from 'components/button';
 import { Dialog } from 'components/dialog';
 import { AddButton, DeleteButton, EditButton } from 'components/icon-button';
@@ -23,7 +24,7 @@ export const PermutationTemplateForm = (
   const [name, setName] = React.useState(
     props.currentValue ? props.currentValue.name : ''
   );
-  const [fields, setFields] = React.useState<Array<FieldWithoutId>>(
+  const [fields, setFields] = React.useState<Array<PermutationFieldConfig>>(
     props.currentValue ? props.currentValue.fields : []
   );
   const [focusedFieldIndex, setFocusedFieldIndex] = React.useState<
@@ -31,6 +32,7 @@ export const PermutationTemplateForm = (
   >(undefined);
 
   const [showAddForm, setShowAddForm] = React.useState(false);
+  const [errorMsg, setErrorMsg] = React.useState('');
 
   React.useEffect(() => {
     if (props.currentValue) {
@@ -55,16 +57,21 @@ export const PermutationTemplateForm = (
                   name,
                   fields,
                 })
-          ).then(() => {
-            setName('');
-            setFields([]);
-            props.onSuccess();
-          });
+          )
+            .then(() => {
+              setName('');
+              setFields([]);
+              props.onSuccess();
+            })
+            .catch((err: Error) => {
+              setErrorMsg(err.message);
+            });
         }}
       >
         <div className="mx-2 font-semibold text-lg mb-2">
           {props.currentValue ? 'Edit' : 'Create'} Template
         </div>
+        {errorMsg && <Alert variant="error">{errorMsg}</Alert>}
         <TextField
           label="Template Name"
           value={name}
@@ -83,7 +90,7 @@ export const PermutationTemplateForm = (
             {fields.map((field, i) => (
               <li className="flex items-center mb-2" key={i}>
                 <div className="flex-1">
-                  <PermutationField config={field} />
+                  <PermutationField config={field} preview />
                 </div>
                 <div className="pl-2">
                   <EditButton
@@ -141,5 +148,3 @@ export const PermutationTemplateForm = (
     </>
   );
 };
-
-type FieldWithoutId = Omit<PermutationFieldConfig, '_id'>;

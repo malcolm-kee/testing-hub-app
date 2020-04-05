@@ -8,17 +8,16 @@ import {
 import { Input } from 'components/input';
 import { SelectField } from 'components/select-field';
 import { TextField } from 'components/text-field';
+import { getId } from 'lib/id';
 import { slugify } from 'lib/slugify';
 import * as React from 'react';
 import { FiMinus } from 'react-icons/fi';
 import { FieldType, PermutationFieldConfig } from '../permutation.type';
 import { PermutationField } from './permutation-field';
 
-type FieldWithoutId = Omit<PermutationFieldConfig, '_id'>;
-
 type FieldEditorProps = {
-  currentValue?: FieldWithoutId;
-  onSave: (data: FieldWithoutId) => void;
+  currentValue?: PermutationFieldConfig;
+  onSave: (data: PermutationFieldConfig) => void;
 };
 
 export const PermutationTemplateFieldEditor = (props: FieldEditorProps) => {
@@ -52,6 +51,7 @@ export const PermutationTemplateFieldEditor = (props: FieldEditorProps) => {
         onSubmit={(ev) => {
           ev.preventDefault();
           props.onSave({
+            _id: props.currentValue ? props.currentValue._id : getId(true),
             name,
             fieldType,
             fieldKey,

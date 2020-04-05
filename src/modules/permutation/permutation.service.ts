@@ -1,36 +1,35 @@
 import { fetchJson } from 'lib/fetch-json';
+import { isNumber } from 'lib/is';
+import { omit } from 'lib/omit';
 import { useRemoteData } from 'lib/use-remote-data';
-import {
-  PermutationFieldConfig,
-  PermutationTemplate,
-} from './permutation.type';
+import { PermutationTemplate } from './permutation.type';
 
 const permutationTemplateUrl = process.env
   .REACT_APP_PERMUTATION_TEMPLATE_URL as string;
 
-export const useAllTemplates = () => {
-  return useRemoteData(permutationTemplateUrl, [] as PermutationTemplate[]);
-};
+export const useAllTemplates = () =>
+  useRemoteData(permutationTemplateUrl, [] as PermutationTemplate[]);
 
-export const createTemplate = (
-  data: Omit<PermutationTemplate, '_id' | 'fields'> & {
-    fields: Array<Omit<PermutationFieldConfig, '_id'>>;
-  }
-) =>
+export const createTemplate = (data: Omit<PermutationTemplate, '_id'>) =>
   fetchJson(permutationTemplateUrl, {
     method: 'POST',
-    data,
+    data: {
+      name: data.name,
+      fields: data.fields.map((field) =>
+        isNumber(field._id) ? omit(field, ['_id']) : field
+      ),
+    },
   }) as Promise<PermutationTemplate>;
 
-export const updateTemplate = ({
-  _id,
-  ...data
-}: Omit<PermutationTemplate, 'fields'> & {
-  fields: Array<Omit<PermutationFieldConfig, '_id'>>;
-}) =>
+export const updateTemplate = ({ _id, name, fields }: PermutationTemplate) =>
   fetchJson(permutationTemplateUrl + `/${_id}`, {
     method: 'PUT',
-    data,
+    data: {
+      name,
+      fields: fields.map((field) =>
+        isNumber(field._id) ? omit(field, ['_id']) : field
+      ),
+    },
   }) as Promise<PermutationTemplate>;
 
 export const deleteTemplate = (templateId: string) =>

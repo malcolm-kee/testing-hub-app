@@ -1,8 +1,12 @@
 import * as React from 'react';
 
-let fakeId = -10_000;
+let fakeId = 0;
 
-export const getId = () => `forum-${fakeId++}`;
+export function getId(inNumber: true): number;
+export function getId(inNumber?: false): string;
+export function getId(inNumber?: boolean) {
+  return inNumber ? fakeId++ : `forum-${fakeId++}`;
+}
 
 export const useId = (providedId: string | undefined) => {
   const [fallbackId, setFallbackId] = React.useState(providedId);
