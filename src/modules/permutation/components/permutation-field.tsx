@@ -2,20 +2,27 @@ import { Checkbox } from 'components/checkbox';
 import { SelectField } from 'components/select-field';
 import { TextField } from 'components/text-field';
 import * as React from 'react';
-import { PermutationFieldConfig } from '../permutation.type';
+import {
+  PermutationFieldConfig,
+  PermutationFieldValue,
+} from '../permutation.type';
 import { TextareaField } from 'components/textarea-field';
 
-export type PermutationFieldProps = {
+export type PermutationFieldProps<Value extends PermutationFieldValue> = {
   config: Omit<PermutationFieldConfig, '_id'>;
+  value?: Value;
+  onChangeValue?: (value: Value) => void;
   preview?: boolean;
   readOnly?: boolean;
 };
 
-export const PermutationField = ({
+export const PermutationField = <Value extends PermutationFieldValue>({
   config,
+  value,
+  onChangeValue,
   preview,
   readOnly,
-}: PermutationFieldProps) => {
+}: PermutationFieldProps<Value>) => {
   switch (config.fieldType) {
     case 'text':
       return (
@@ -25,6 +32,8 @@ export const PermutationField = ({
           }
           required={!preview && config.isRequired}
           readOnly={readOnly}
+          value={value as string}
+          onChangeValue={onChangeValue as any}
         />
       );
 
@@ -36,6 +45,8 @@ export const PermutationField = ({
           }
           required={!preview && config.isRequired}
           readOnly={readOnly}
+          value={value as string}
+          onChangeValue={onChangeValue as any}
         />
       );
 
@@ -47,6 +58,8 @@ export const PermutationField = ({
           }
           required={!preview && config.isRequired}
           disabled={readOnly}
+          value={value as string}
+          onChangeValue={onChangeValue as any}
         >
           {config.options.map((opt, i) => (
             <option value={opt.value} key={i}>
@@ -65,6 +78,10 @@ export const PermutationField = ({
           disabled={readOnly}
           className="px-1 py-3"
           required={!preview && config.isRequired}
+          checked={value as boolean}
+          onChange={
+            onChangeValue && ((ev) => (onChangeValue as any)(ev.target.checked))
+          }
         />
       );
 

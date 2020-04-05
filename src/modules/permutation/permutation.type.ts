@@ -26,10 +26,12 @@ export type PermutationTemplate = {
   fields: PermutationFieldConfig[];
 };
 
+export type PermutationFieldValue = string | boolean | string[];
+
 export type Permutation = {
   _id: string;
   name: string;
   templateId: string;
   tags: string[];
-  fieldValues: Record<string, string>;
+  fieldValues: Record<string, PermutationFieldValue>;
 };
